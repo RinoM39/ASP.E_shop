@@ -313,6 +313,7 @@ C:\Users\VICTUS\source\repos\E-Shop_1\E-Shop_1\obj\Debug\net10.0\E-Shop_1.Assemb
 C:\Users\VICTUS\source\repos\E-Shop_1\E-Shop_1\obj\Debug\net10.0\E-Shop_1.csproj.CoreCompileInputs.cache
 C:\Users\VICTUS\source\repos\E-Shop_1\E-Shop_1\obj\Debug\net10.0\E-Shop_1.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\VICTUS\source\repos\E-Shop_1\E-Shop_1\obj\Debug\net10.0\E-Shop_1.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\VICTUS\source\repos\E-Shop_1\E-Shop_1\obj\Debug\net10.0\E-Shop_1.sourcelink.json
 C:\Users\VICTUS\source\repos\E-Shop_1\E-Shop_1\obj\Debug\net10.0\rjimswa.dswa.cache.json
 C:\Users\VICTUS\source\repos\E-Shop_1\E-Shop_1\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
 C:\Users\VICTUS\source\repos\E-Shop_1\E-Shop_1\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json

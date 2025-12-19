@@ -29,8 +29,24 @@ namespace E_Shop_1.Controllers
 
         // GET: /api/Products
         [HttpGet]
-        public async Task<IActionResult> GetProducts()
+        public async Task<IActionResult> GetProducts([FromQuery] string? search)
         {
+
+
+
+            // 1. نبدأ بالاستعلام الأساسي مع تضمين التصنيف
+            var query = _context.Products.Include(p => p.Category).AsQueryable();
+
+            // 2. إذا كان هناك نص للبحث، نقوم بالفلترة
+            if (!string.IsNullOrEmpty(search))
+            {
+                var searchLower = search.ToLower();
+                query = query.Where(p => p.Name.ToLower().Contains(searchLower)
+                                      || p.Description.ToLower().Contains(searchLower));
+            }
+
+
+
             // Note: تأكد من أن لديك كلاس Product معرف في DbContext
 
             // استخدام Entity Framework Core لجلب جميع المنتجات بشكل غير متزامن
@@ -164,7 +180,7 @@ namespace E_Shop_1.Controllers
             // يمكنك هنا الوصول لبيانات المستخدم عبر User.Identity
             return Ok(new { Message = "بيانات سرية! لقد نجح التوكن." });
         }
-
+//----------------------------------------------------------------------------
         [HttpPost("upload-image")]
         public async Task<IActionResult> UploadImage(IFormFile file)
         {
