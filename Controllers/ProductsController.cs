@@ -29,7 +29,7 @@ namespace E_Shop_1.Controllers
 
         // GET: /api/Products
         [HttpGet]
-        public async Task<IActionResult> GetProducts([FromQuery] string? search)
+        public async Task<IActionResult> GetProducts([FromQuery] string? search, [FromQuery] decimal? minPrice, [FromQuery] decimal? maxPrice)
         {
 
 
@@ -45,15 +45,19 @@ namespace E_Shop_1.Controllers
                                       || p.Description.ToLower().Contains(searchLower));
             }
 
+            // 3. فلترة الحد الأدنى للسعر
+            if (minPrice.HasValue)
+            {
+                query = query.Where(p => p.Price >= minPrice.Value);
+            }
 
+            // 4. فلترة الحد الأعلى للسعر
+            if (maxPrice.HasValue)
+            {
+                query = query.Where(p => p.Price <= maxPrice.Value);
+            }
 
-            // Note: تأكد من أن لديك كلاس Product معرف في DbContext
-
-            // استخدام Entity Framework Core لجلب جميع المنتجات بشكل غير متزامن
-            // (سيتطلب إضافة using E_Shop_1.Models; إذا كان كلاس Product موجودًا هناك)
-
-            var products = await _context.Products.Include(p => p.Category).ToListAsync();
-
+            var products = await query.ToListAsync(); // ✅ هنا نخبر البرنامج أن يستخدم الاستعلام الذي يحتوي على البحث
 
             // تحويل المنتجات إلى DTOs
             var productsDto = _mapper.Map<List<ProductDto>>(products);
