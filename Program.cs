@@ -15,6 +15,18 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// 1. تعريف سياسة السماح بالوصول (CORS)
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        policy =>
+        {
+            policy.AllowAnyOrigin()    // يسمح لأي موقع (بما في ذلك Live Server) بالاتصال
+                  .AllowAnyMethod()    // يسمح بكل العمليات (GET, POST, DELETE...)
+                  .AllowAnyHeader();   // يسمح بكل أنواع الهيدرز (مثل التوكن)
+        });
+});
+
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 
@@ -75,7 +87,17 @@ builder.Services.AddAuthentication(options =>
 // تسجيل خدمة ITokenService
 builder.Services.AddScoped<ITokenService, TokenService>();
 
+
+builder.Services.AddCors(options => {
+    options.AddPolicy("AllowFrontend",
+        policy => policy.WithOrigins("http://127.0.0.1:5500") 
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+});
+
 var app = builder.Build();
+
+
 // ...
 
 
@@ -89,6 +111,8 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.UseCors("AllowAll");
+
 app.UseHttpsRedirection();
 
 app.UseRouting();
@@ -96,8 +120,8 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
-app.MapControllers();
+app.UseStaticFiles(); // هذا السطر هو الذي يجعل الصور تظهر في المتصفح
 
-app.UseStaticFiles(); // يسمح بالوصول للصور عبر الرابط
+app.MapControllers();
 
 app.Run();
